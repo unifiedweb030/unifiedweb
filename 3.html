@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub - 100+ Games Collection</title>
+    <title>Unified Web - Game Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,11 +17,11 @@
         }
 
         :root {
-            --primary: #6c5ce7;
-            --primary-dark: #5649c5;
-            --secondary: #a29bfe;
-            --accent: #fd79a8;
-            --accent-dark: #e66797;
+            --primary: #6a11cb;
+            --primary-dark: #4d0a9c;
+            --secondary: #8a2be2;
+            --accent: #2575fc;
+            --accent-dark: #1a5bc5;
             --dark: #0f172a;
             --darker: #0a0f1f;
             --light: #f1f5f9;
@@ -47,8 +47,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.15) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(253, 121, 168, 0.15) 0%, transparent 20%);
+                radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(37, 117, 252, 0.15) 0%, transparent 20%);
             pointer-events: none;
             z-index: -1;
         }
@@ -73,7 +73,7 @@
             position: relative;
             width: 220px;
             height: 220px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             perspective: 1000px;
         }
 
@@ -87,7 +87,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(108, 92, 231, 0.5);
+            box-shadow: 0 0 50px rgba(106, 17, 203, 0.5);
             animation: pulse 2s infinite ease-in-out;
             transform-style: preserve-3d;
         }
@@ -113,16 +113,29 @@
         .logo-text {
             position: absolute;
             color: white;
-            font-size: 4.5rem;
+            font-size: 6rem;
             font-weight: 800;
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
             z-index: 10;
             font-family: 'Montserrat', sans-serif;
         }
 
+        .unified-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+
         .loading-bar-container {
             width: 320px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .loading-text {
@@ -131,6 +144,14 @@
             margin-bottom: 8px;
             color: var(--secondary);
             font-size: 1.1rem;
+        }
+
+        .loading-text span:first-child {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
         }
 
         .loading-bar {
@@ -150,7 +171,7 @@
             background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 10px;
             animation: loading 3.5s ease-in-out forwards;
-            box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
         }
 
         .loading-percentage {
@@ -233,7 +254,7 @@
             padding: 14px 24px;
             padding-left: 50px;
             border-radius: 30px;
-            border: 2px solid rgba(162, 155, 254, 0.3);
+            border: 2px solid rgba(138, 43, 226, 0.3);
             background: rgba(30, 41, 59, 0.7);
             color: white;
             font-size: 1rem;
@@ -244,7 +265,7 @@
         #search-input:focus {
             background: rgba(30, 41, 59, 0.9);
             border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 0 15px rgba(106, 17, 203, 0.4);
         }
 
         .search-container i {
@@ -275,7 +296,7 @@
         nav a:hover, nav a.active {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
         }
 
         /* Hero Section */
@@ -385,7 +406,7 @@
 
         .category-btn {
             background: rgba(30, 41, 59, 0.7);
-            border: 2px solid rgba(162, 155, 254, 0.2);
+            border: 2px solid rgba(138, 43, 226, 0.2);
             padding: 12px 28px;
             border-radius: 30px;
             color: var(--light);
@@ -398,7 +419,7 @@
         .category-btn:hover, .category-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
             border-color: transparent;
         }
 
@@ -436,7 +457,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(108, 92, 231, 0.1));
+            background: linear-gradient(135deg, transparent, rgba(106, 17, 203, 0.1));
             pointer-events: none;
             z-index: 1;
         }
@@ -480,7 +501,7 @@
         }
 
         .game-category {
-            background: rgba(162, 155, 254, 0.15);
+            background: rgba(138, 43, 226, 0.15);
             padding: 5px 15px;
             border-radius: 20px;
             color: var(--secondary);
@@ -528,7 +549,7 @@
 
         .play-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.4);
+            box-shadow: 0 8px 20px rgba(37, 117, 252, 0.4);
         }
 
         /* Footer */
@@ -610,7 +631,7 @@
         .social-icons a:hover {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
         }
 
         .copyright {
@@ -628,9 +649,9 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 50px rgba(108, 92, 231, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 70px rgba(108, 92, 231, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 0 50px rgba(108, 92, 231, 0.5); }
+            0% { transform: scale(1); box-shadow: 0 0 50px rgba(106, 17, 203, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 70px rgba(37, 117, 252, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 50px rgba(106, 17, 203, 0.5); }
         }
         
         @keyframes pulseInner {
@@ -711,7 +732,11 @@
             }
             
             .logo-text {
-                font-size: 3.5rem;
+                font-size: 5rem;
+            }
+            
+            .unified-text {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -722,13 +747,15 @@
         <div class="logo-container">
             <div class="logo">
                 <div class="logo-inner"></div>
-                <span class="logo-text">G</span>
+                <span class="logo-text">U</span>
             </div>
         </div>
         
+        <div class="unified-text">UNIFIED WEB</div>
+        
         <div class="loading-bar-container">
             <div class="loading-text">
-                <span>Loading GameHub</span>
+                <span>Loading Unified Experience</span>
                 <span id="percentage">0%</span>
             </div>
             <div class="loading-bar">
@@ -748,8 +775,8 @@
     <div id="main-content">
         <header>
             <div class="main-logo">
-                <i class="fas fa-gamepad"></i>
-                <span>GameHub</span>
+                <i class="fas fa-globe-americas"></i>
+                <span>Unified Web</span>
             </div>
             
             <div class="search-container">
@@ -769,8 +796,8 @@
         </header>
         
         <section class="hero">
-            <h1>Discover Endless Fun</h1>
-            <p>Play over 100+ free online games in various categories. Adventure, strategy, puzzles, and more - all in one place!</p>
+            <h1>Discover Endless Gaming</h1>
+            <p>Play over 100+ free online games in various categories. Adventure, strategy, puzzles, and more - all unified in one place!</p>
             
             <div class="stats-container">
                 <div class="stat-box">
@@ -817,8 +844,8 @@
         
         <footer>
             <div class="footer-content">
-                <div class="footer-logo">Game<span>Hub</span></div>
-                <p class="footer-text">Your ultimate destination for free online games. Play, compete, and have fun with our curated collection of 100+ games across multiple genres.</p>
+                <div class="footer-logo">Unified <span>Web</span></div>
+                <p class="footer-text">Your unified gaming destination. Play, compete, and have fun with our curated collection of 100+ games across multiple genres.</p>
                 
                 <div class="footer-links">
                     <a href="#">About Us</a>
@@ -838,7 +865,7 @@
                 </div>
                 
                 <div class="copyright">
-                    &copy; 2023 GameHub. All rights reserved. All games are property of their respective owners.
+                    &copy; 2023 Unified Web. All rights reserved. All games are property of their respective owners.
                 </div>
             </div>
         </footer>
