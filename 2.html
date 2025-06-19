@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Hub - Personalized App Collection</title>
+    <title>Unified Web | Essential Apps Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #2ec4b6;
+            --warning: #ff9f1c;
+            --danger: #e71d36;
+            --purple: #7209b7;
+            --pink: #f72585;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --card-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+            --gradient: linear-gradient(135deg, #4361ee, #3a0ca3, #7209b7);
+            --card-gradient: linear-gradient(135deg, #f0f2f5 0%, #e6e9ff 100%);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,41 +32,100 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4cc9f0;
-            --success: #4ade80;
-            --warning: #facc15;
-            --danger: #f87171;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-        
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            background: var(--card-gradient);
             color: var(--dark);
+            line-height: 1.6;
             min-height: 100vh;
-            padding-bottom: 50px;
+            overflow-x: hidden;
         }
         
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .unified-logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 30px rgba(255,255,255,0.5);
+        }
+        
+        .unified-logo span {
+            font-size: 60px;
+            font-weight: 800;
+            color: var(--secondary);
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(255,255,255,0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(255,255,255,0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,255,255,0.5); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        /* Main Content */
         header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: var(--gradient);
             color: white;
             padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
         
         .container {
             width: 90%;
             max-width: 1400px;
             margin: 0 auto;
+            padding: 20px 0;
         }
         
         .header-content {
@@ -55,26 +133,39 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo-icon span {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
-        }
-        
-        .logo i {
-            color: var(--accent);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            letter-spacing: 0.5px;
+            background: linear-gradient(to right, #fff, #e0e0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .search-container {
@@ -83,1125 +174,745 @@
             position: relative;
         }
         
-        .search-container input {
+        #searchInput {
             width: 100%;
-            padding: 14px 20px;
+            padding: 15px 20px 15px 55px;
             border-radius: 50px;
             border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
             font-size: 1rem;
-            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: var(--transition);
-            font-weight: 500;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
         }
         
-        .search-container input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+        #searchInput::placeholder {
+            color: rgba(255,255,255,0.8);
         }
         
-        .search-container input:focus {
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        #searchInput:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            background: rgba(255,255,255,0.3);
         }
         
-        .search-container i {
+        .search-icon {
             position: absolute;
-            right: 20px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: white;
-            pointer-events: none;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
         }
         
-        .user-actions {
+        .controls {
             display: flex;
             gap: 15px;
         }
         
         .btn {
-            padding: 10px 18px;
-            border-radius: 50px;
+            background: rgba(255,255,255,0.15);
+            color: white;
             border: none;
-            font-weight: 600;
+            padding: 12px 22px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.95rem;
-        }
-        
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
+            font-weight: 500;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         .btn:hover {
+            background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .btn i {
+            font-size: 1.1rem;
         }
         
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(to right, #4cc9f0, #4361ee);
+        .category-filter {
+            background: rgba(255,255,255,0.85);
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-weight: 700;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: white;
+            gap: 12px;
+        }
+        
+        .category-title i {
+            font-size: 1.5rem;
         }
         
         .categories {
             display: flex;
-            overflow-x: auto;
-            padding: 20px 0;
-            gap: 10px;
-            margin: 20px 0;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .categories::-webkit-scrollbar {
-            display: none;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
         .category-btn {
+            background: white;
+            border: 1px solid var(--light-gray);
             padding: 10px 22px;
             border-radius: 50px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            color: var(--dark);
-            font-weight: 500;
             cursor: pointer;
-            white-space: nowrap;
-            transition: var(--transition);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             font-size: 0.95rem;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
         }
         
         .category-btn:hover, .category-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
         
-        .section-title {
-            margin: 30px 0 20px;
-            font-size: 1.8rem;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .counter {
+            text-align: center;
+            margin: 35px 0;
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 500;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
         }
         
-        .section-title i {
+        .counter span {
             color: var(--primary);
-        }
-        
-        .section-title .app-count {
-            background: var(--accent);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 1.1rem;
             font-weight: 700;
-            margin-left: 10px;
+            font-size: 1.3rem;
         }
         
-        .apps-grid {
+        .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
         }
         
         .app-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
             display: flex;
             flex-direction: column;
             height: 100%;
-            animation: fadeIn 0.5s ease-out;
             position: relative;
-        }
-        
-        .app-card.downloader {
-            border: 2px solid var(--success);
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.2);
-        }
-        
-        .app-card.downloader::after {
-            content: "Downloader";
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--success);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 20px;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
         }
         
         .app-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         
         .app-icon {
-            height: 130px;
+            width: 100%;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.2rem;
+            font-size: 4rem;
+            color: white;
             position: relative;
+            overflow: hidden;
         }
         
-        .save-btn {
+        .app-icon::after {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.8);
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--gray);
-            font-size: 1.1rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, rgba(0,0,0,0.1), transparent);
         }
         
-        .save-btn:hover {
-            background: white;
-            color: var(--danger);
-            transform: scale(1.1);
-        }
-        
-        .save-btn.saved {
-            color: var(--danger);
-        }
-        
-        .app-content {
-            padding: 20px;
-            background: white;
+        .app-info {
+            padding: 25px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
         
-        .app-title {
-            font-size: 1.15rem;
+        .app-name {
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            color: var(--dark);
         }
         
         .app-category {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 12px;
+            font-size: 0.9rem;
+            background: var(--light-gray);
+            color: var(--gray);
+            padding: 6px 14px;
+            border-radius: 50px;
+            align-self: flex-start;
+            margin-bottom: 15px;
             font-weight: 500;
         }
         
-        .app-description {
-            font-size: 0.9rem;
-            color: #475569;
-            margin-bottom: 15px;
+        .app-desc {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 25px;
             flex-grow: 1;
             line-height: 1.5;
         }
         
         .app-link {
             display: inline-block;
-            padding: 10px 15px;
+            text-align: center;
             background: var(--primary);
             color: white;
+            padding: 12px 15px;
+            border-radius: 12px;
             text-decoration: none;
-            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
-            text-align: center;
             transition: var(--transition);
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
         
         .app-link:hover {
             background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(58, 12, 163, 0.4);
         }
         
-        .stats-bar {
-            display: flex;
-            justify-content: space-around;
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0 40px;
-            box-shadow: var(--card-shadow);
-            text-align: center;
+        .app-link.download {
+            background: var(--success);
+            box-shadow: 0 4px 10px rgba(46, 196, 182, 0.3);
         }
         
-        .stat-item {
-            padding: 10px;
+        .app-link.download:hover {
+            background: #25a99a;
         }
         
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .stat-label {
+        .disclaimer {
+            background: rgba(255, 215, 215, 0.3);
+            border-left: 4px solid var(--danger);
+            padding: 15px;
+            margin: 10px 0 20px;
+            border-radius: 0 8px 8px 0;
             font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
             color: var(--gray);
+            font-size: 1rem;
+            padding: 25px 0;
+            border-top: 1px solid var(--light-gray);
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
             background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            animation: modalOpen 0.3s ease-out;
+            border-radius: 20px;
+            color: var(--gray);
+            font-size: 1.2rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out forwards;
         }
         
-        @keyframes modalOpen {
-            from { opacity: 0; transform: translateY(-30px); }
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: var(--light-gray);
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .modal-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        @keyframes logoFloat {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
         }
         
-        .modal-header h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-group input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-        
-        .modal-footer {
-            padding: 0 30px 30px;
-            text-align: center;
-        }
-        
-        .modal-footer p {
-            margin-top: 15px;
-            color: var(--gray);
-        }
-        
-        .modal-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .modal-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .btn-block {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .btn-block:hover {
-            background: var(--secondary);
-        }
-        
-        .saved-apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .saved-apps-empty {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--gray);
-        }
-        
-        .saved-apps-empty i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: var(--light);
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            color: #64748b;
-            font-size: 0.9rem;
-            padding: 20px;
-            border-top: 1px solid #e9ecef;
+        /* Responsive */
+        @media (max-width: 992px) {
+            .app-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
         
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
+                align-items: stretch;
             }
             
             .logo {
-                font-size: 1.5rem;
+                justify-content: center;
             }
             
-            .search-container {
-                width: 100%;
-            }
-            
-            .apps-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 15px;
-            }
-            
-            .stats-bar {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
+            .controls {
+                justify-content: center;
             }
         }
         
-        @media (max-width: 480px) {
-            .apps-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        @media (max-width: 576px) {
+            .app-grid {
+                grid-template-columns: 1fr;
             }
             
-            .app-icon {
-                height: 100px;
+            .btn span {
+                display: none;
             }
             
-            .btn {
-                padding: 8px 14px;
-                font-size: 0.85rem;
+            .btn i {
+                margin-right: 0;
+            }
+            
+            .category-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="unified-logo">
+            <span>U</span>
+        </div>
+        <div class="loading-text">UNIFIED WEB</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loading-progress"></div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-th-large"></i>
-                    <span>App Hub</span>
+                    <div class="logo-icon">
+                        <span>U</span>
+                    </div>
+                    <h1>Essential Apps Hub</h1>
                 </div>
-                
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search for apps...">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search 155 apps...">
                 </div>
-                
-                <div class="user-actions">
-                    <button id="savedBtn" class="btn btn-outline">
-                        <i class="fas fa-bookmark"></i> <span id="savedText">Saved</span>
-                    </button>
-                    <button id="accountBtn" class="btn btn-primary">
-                        <i class="fas fa-user"></i> <span id="accountText">Account</span>
-                    </button>
+                <div class="controls">
+                    <button class="btn" id="filterBtn"><i class="fas fa-filter"></i> <span>Filters</span></button>
+                    <button class="btn" id="viewAllBtn"><i class="fas fa-globe"></i> <span>All Apps</span></button>
                 </div>
             </div>
         </div>
     </header>
     
     <div class="container">
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-value">100+</div>
-                <div class="stat-label">Apps Available</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">12</div>
-                <div class="stat-label">Categories</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">24/7</div>
-                <div class="stat-label">Access</div>
+        <div class="category-filter">
+            <h2 class="category-title"><i class="fas fa-folder"></i> Browse Categories</h2>
+            <div class="categories" id="categoriesContainer">
+                <!-- Categories will be added dynamically -->
             </div>
         </div>
         
-        <div class="categories">
-            <button class="category-btn active" data-category="all">All Apps</button>
-            <button class="category-btn" data-category="social">Social Media</button>
-            <button class="category-btn" data-category="productivity">Productivity</button>
-            <button class="category-btn" data-category="entertainment">Entertainment</button>
-            <button class="category-btn" data-category="utilities">Utilities</button>
-            <button class="category-btn" data-category="shopping">Shopping</button>
-            <button class="category-btn" data-category="finance">Finance</button>
-            <button class="category-btn" data-category="health">Health & Fitness</button>
-            <button class="category-btn" data-category="travel">Travel</button>
-            <button class="category-btn" data-category="news">News</button>
-            <button class="category-btn" data-category="food">Food</button>
-            <button class="category-btn" data-category="education">Education</button>
-            <button class="category-btn" data-category="downloaders">Downloaders</button>
-        </div>
+        <div class="counter">Showing <span id="appCount">0</span> of 155 Essential Apps</div>
         
-        <h2 class="section-title">
-            <i class="fas fa-globe"></i> All Applications <span class="app-count">100+</span>
-        </h2>
-        
-        <div class="apps-grid" id="appsGrid">
-            <!-- Apps will be populated by JavaScript -->
-        </div>
-        
-        <div class="footer">
-            <p>App Hub &copy; 2023 | Your daily app collection with 100+ essential applications</p>
-            <p>Designed for convenience and productivity - all your apps in one place</p>
+        <div class="app-grid" id="appGrid">
+            <!-- App cards will be added dynamically -->
         </div>
     </div>
-
-    <!-- Saved Apps Modal -->
-    <div id="savedModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="savedModalTitle">Your Saved Apps</h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="savedAppsContainer">
-                    <div class="saved-apps-empty">
-                        <i class="fas fa-bookmark"></i>
-                        <h3>No saved apps yet</h3>
-                        <p>Save your favorite apps to access them quickly</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Account Modal -->
-    <div id="accountModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="accountModalTitle">Account Login</h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password">
-                    </div>
-                    <div class="modal-footer">
-                        <button id="loginBtn" class="btn-block">Login</button>
-                        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
-                    </div>
-                </div>
-                
-                <div id="signupForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="Enter your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" placeholder="Create a password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" placeholder="Confirm your password">
-                    </div>
-                    <div class="modal-footer">
-                        <button id="signupBtn" class="btn-block">Create Account</button>
-                        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-                    </div>
-                </div>
-                
-                <div id="userProfile" style="display: none;">
-                    <div class="user-info" style="justify-content: center; margin-bottom: 30px;">
-                        <div class="user-avatar" id="userAvatar">U</div>
-                        <div>
-                            <h3 id="userName">User Name</h3>
-                            <p id="userEmail">user@example.com</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="logoutBtn" class="btn-block">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
+    <footer class="container">
+        <p>Unified Web &copy; 2023 | Essential Apps Hub - Your gateway to digital tools</p>
+        <p class="disclaimer" style="margin-top: 15px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Note: Media download tools are only available in the "Media Tools" category. 
+            Please respect copyright laws when using these tools.
+        </p>
+    </footer>
+    
     <script>
-        // App data with 100+ apps
+        // App data - 155 apps across various categories
         const apps = [
-            // Social Media
-            { id: 1, title: "Facebook", category: "social", iconClass: "fab fa-facebook", background: "#4267B2", description: "Connect with friends, family and people who share the same interests.", link: "https://www.facebook.com" },
-            { id: 2, title: "Instagram", category: "social", iconClass: "fab fa-instagram", background: "linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D)", description: "Share photos and videos with creative tools, filters and effects.", link: "https://www.instagram.com" },
-            { id: 3, title: "Twitter", category: "social", iconClass: "fab fa-twitter", background: "#1DA1F2", description: "See what's happening in the world right now through conversations.", link: "https://twitter.com" },
-            { id: 4, title: "LinkedIn", category: "social", iconClass: "fab fa-linkedin", background: "#0A66C2", description: "Build and engage with your professional network.", link: "https://www.linkedin.com" },
+            // Social Media (15)
+            { name: "Facebook", category: "Social Media", icon: "fab fa-facebook", color: "#3b5998", url: "https://www.facebook.com/", desc: "Connect with friends and the world around you" },
+            { name: "Instagram", category: "Social Media", icon: "fab fa-instagram", color: "#e1306c", url: "https://www.instagram.com/", desc: "Photo and video sharing social network" },
+            { name: "Twitter", category: "Social Media", icon: "fab fa-twitter", color: "#1da1f2", url: "https://twitter.com/", desc: "News and social networking service" },
+            { name: "LinkedIn", category: "Social Media", icon: "fab fa-linkedin", color: "#0077b5", url: "https://www.linkedin.com/", desc: "Business and employment-oriented service" },
+            { name: "WhatsApp", category: "Social Media", icon: "fab fa-whatsapp", color: "#25d366", url: "https://www.whatsapp.com/", desc: "Free messaging and video calling app" },
+            { name: "Snapchat", category: "Social Media", icon: "fab fa-snapchat", color: "#fffc00", url: "https://www.snapchat.com/", desc: "Multimedia messaging app" },
+            { name: "Pinterest", category: "Social Media", icon: "fab fa-pinterest", color: "#bd081c", url: "https://www.pinterest.com/", desc: "Image sharing and social media service" },
+            { name: "Reddit", category: "Social Media", icon: "fab fa-reddit", color: "#ff4500", url: "https://www.reddit.com/", desc: "Social news aggregation and discussion" },
+            { name: "Discord", category: "Social Media", icon: "fab fa-discord", color: "#7289da", url: "https://discord.com/", desc: "Voice, video, and text communication service" },
+            { name: "TikTok", category: "Social Media", icon: "fab fa-tiktok", color: "#000000", url: "https://www.tiktok.com/", desc: "Short-form video sharing platform" },
+            { name: "Telegram", category: "Social Media", icon: "fab fa-telegram", color: "#0088cc", url: "https://telegram.org/", desc: "Cloud-based instant messaging service" },
+            { name: "Tumblr", category: "Social Media", icon: "fab fa-tumblr", color: "#35465c", url: "https://www.tumblr.com/", desc: "Microblogging and social networking site" },
+            { name: "Signal", category: "Social Media", icon: "fas fa-comment", color: "#3a76f0", url: "https://signal.org/", desc: "Encrypted messaging service" },
+            { name: "Clubhouse", category: "Social Media", icon: "fas fa-users", color: "#f44336", url: "https://www.clubhouse.com/", desc: "Drop-in audio chat social networking" },
+            { name: "WeChat", category: "Social Media", icon: "fab fa-weixin", color: "#07c160", url: "https://www.wechat.com/", desc: "Multi-purpose messaging and social media" },
             
-            // Productivity
-            { id: 5, title: "Google Drive", category: "productivity", iconClass: "fab fa-google-drive", background: "#4285F4", description: "Cloud storage and file backup with collaborative editing tools.", link: "https://drive.google.com" },
-            { id: 6, title: "Trello", category: "productivity", iconClass: "fas fa-tasks", background: "#7B68EE", description: "Organize anything with boards, lists, and cards for project management.", link: "https://trello.com" },
-            { id: 7, title: "Notion", category: "productivity", iconClass: "fas fa-book", background: "#000000", description: "All-in-one workspace for notes, tasks, wikis, and databases.", link: "https://www.notion.so" },
+            // Productivity (20)
+            { name: "Google Docs", category: "Productivity", icon: "fas fa-file-word", color: "#4285f4", url: "https://docs.google.com/", desc: "Online word processor" },
+            { name: "Google Sheets", category: "Productivity", icon: "fas fa-file-excel", color: "#0f9d58", url: "https://sheets.google.com/", desc: "Online spreadsheet application" },
+            { name: "Google Slides", category: "Productivity", icon: "fas fa-file-powerpoint", color: "#f4b400", url: "https://slides.google.com/", desc: "Online presentation program" },
+            { name: "Microsoft Word", category: "Productivity", icon: "fas fa-file-word", color: "#2b579a", url: "https://www.microsoft.com/word", desc: "Word processing software" },
+            { name: "Microsoft Excel", category: "Productivity", icon: "fas fa-file-excel", color: "#217346", url: "https://www.microsoft.com/excel", desc: "Spreadsheet software" },
+            { name: "Microsoft PowerPoint", category: "Productivity", icon: "fas fa-file-powerpoint", color: "#d24726", url: "https://www.microsoft.com/powerpoint", desc: "Presentation software" },
+            { name: "Trello", category: "Productivity", icon: "fab fa-trello", color: "#0079bf", url: "https://trello.com/", desc: "Project management application" },
+            { name: "Notion", category: "Productivity", icon: "fas fa-book", color: "#000000", url: "https://www.notion.so/", desc: "All-in-one workspace" },
+            { name: "Evernote", category: "Productivity", icon: "fas fa-sticky-note", color: "#00a82d", url: "https://evernote.com/", desc: "Note-taking and organizing app" },
+            { name: "Slack", category: "Productivity", icon: "fab fa-slack", color: "#4a154b", url: "https://slack.com/", desc: "Business communication platform" },
+            { name: "Asana", category: "Productivity", icon: "fas fa-tasks", color: "#f06a6a", url: "https://asana.com/", desc: "Work management platform" },
+            { name: "Todoist", category: "Productivity", icon: "fas fa-check-circle", color: "#e44332", url: "https://todoist.com/", desc: "Task management app" },
+            { name: "Airtable", category: "Productivity", icon: "fas fa-table", color: "#fb0a2a", url: "https://airtable.com/", desc: "Spreadsheet-database hybrid" },
+            { name: "Dropbox Paper", category: "Productivity", icon: "fas fa-file-alt", color: "#0061ff", url: "https://www.dropbox.com/paper", desc: "Collaborative workspace" },
+            { name: "Google Keep", category: "Productivity", icon: "fas fa-lightbulb", color: "#fbbc04", url: "https://keep.google.com/", desc: "Note-taking service" },
+            { name: "Microsoft OneNote", category: "Productivity", icon: "fas fa-sticky-note", color: "#80397b", url: "https://www.onenote.com/", desc: "Digital note-taking app" },
+            { name: "Bear", category: "Productivity", icon: "fas fa-paw", color: "#7e858c", url: "https://bear.app/", desc: "Markdown notes for iOS and Mac" },
+            { name: "Workflowy", category: "Productivity", icon: "fas fa-list", color: "#3d85c6", url: "https://workflowy.com/", desc: "Organize your brain with lists" },
+            { name: "Roam Research", category: "Productivity", icon: "fas fa-brain", color: "#4a4a4a", url: "https://roamresearch.com/", desc: "Note-taking tool for networked thought" },
+            { name: "Obsidian", category: "Productivity", icon: "fas fa-gem", color: "#7d3bed", url: "https://obsidian.md/", desc: "Knowledge base that works on local Markdown files" },
             
-            // Entertainment
-            { id: 8, title: "Netflix", category: "entertainment", iconClass: "fas fa-film", background: "#E50914", description: "Stream movies, TV shows, documentaries and more on any device.", link: "https://www.netflix.com" },
-            { id: 9, title: "Spotify", category: "entertainment", iconClass: "fab fa-spotify", background: "#1DB954", description: "Listen to music and podcasts with millions of songs and other content.", link: "https://www.spotify.com" },
-            { id: 10, title: "YouTube", category: "entertainment", iconClass: "fab fa-youtube", background: "#FF0000", description: "Watch and share videos from around the world.", link: "https://www.youtube.com" },
+            // Entertainment (20)
+            { name: "Netflix", category: "Entertainment", icon: "fas fa-film", color: "#e50914", url: "https://www.netflix.com/", desc: "Streaming service for movies and TV shows" },
+            { name: "YouTube", category: "Entertainment", icon: "fab fa-youtube", color: "#ff0000", url: "https://www.youtube.com/", desc: "Video sharing platform" },
+            { name: "Spotify", category: "Entertainment", icon: "fab fa-spotify", color: "#1db954", url: "https://www.spotify.com/", desc: "Music streaming service" },
+            { name: "Disney+", category: "Entertainment", icon: "fas fa-hat-wizard", color: "#113ccf", url: "https://www.disneyplus.com/", desc: "Streaming service for Disney content" },
+            { name: "Twitch", category: "Entertainment", icon: "fab fa-twitch", color: "#9146ff", url: "https://www.twitch.tv/", desc: "Live streaming platform for gamers" },
+            { name: "Hulu", category: "Entertainment", icon: "fas fa-tv", color: "#1ce783", url: "https://www.hulu.com/", desc: "Streaming service" },
+            { name: "Apple Music", category: "Entertainment", icon: "fab fa-apple", color: "#fa2c56", url: "https://music.apple.com/", desc: "Music and video streaming service" },
+            { name: "Prime Video", category: "Entertainment", icon: "fab fa-amazon", color: "#46b0e6", url: "https://www.primevideo.com/", desc: "Amazon's streaming service" },
+            { name: "SoundCloud", category: "Entertainment", icon: "fab fa-soundcloud", color: "#ff7700", url: "https://soundcloud.com/", desc: "Music and podcast streaming platform" },
+            { name: "Plex", category: "Entertainment", icon: "fas fa-server", color: "#e5a00d", url: "https://www.plex.tv/", desc: "Media player and organizer" },
+            { name: "Cruncyroll", category: "Entertainment", icon: "fas fa-dragon", color: "#f47521", url: "https://www.crunchyroll.com/", desc: "Anime streaming service" },
+            { name: "Shazam", category: "Entertainment", icon: "fas fa-music", color: "#0088ff", url: "https://www.shazam.com/", desc: "Music identification app" },
+            { name: "Audible", category: "Entertainment", icon: "fas fa-headphones", color: "#f8991c", url: "https://www.audible.com/", desc: "Audiobook and podcast service" },
+            { name: "IMDb", category: "Entertainment", icon: "fas fa-film", color: "#f5c518", url: "https://www.imdb.com/", desc: "Movie and TV database" },
+            { name: "Goodreads", category: "Entertainment", icon: "fas fa-book", color: "#553b08", url: "https://www.goodreads.com/", desc: "Book cataloging and review site" },
+            { name: "HBO Max", category: "Entertainment", icon: "fas fa-play-circle", color: "#000000", url: "https://www.hbomax.com/", desc: "Streaming service with premium content" },
+            { name: "Apple TV+", category: "Entertainment", icon: "fas fa-tv", color: "#000000", url: "https://tv.apple.com/", desc: "Original content from Apple" },
+            { name: "Vimeo", category: "Entertainment", icon: "fab fa-vimeo", color: "#1ab7ea", url: "https://vimeo.com/", desc: "Video hosting and sharing platform" },
+            { name: "Deezer", category: "Entertainment", icon: "fas fa-music", color: "#feaa2d", url: "https://www.deezer.com/", desc: "Music streaming service with podcasts" },
+            { name: "Pandora", category: "Entertainment", icon: "fab fa-pandora", color: "#224099", url: "https://www.pandora.com/", desc: "Music streaming and podcast service" },
             
-            // Downloaders
-            { id: 11, title: "YouTube Downloader", category: "downloaders", iconClass: "fab fa-youtube", background: "#FF0000", description: "Download YouTube videos in MP4, MP3, and other formats.", link: "https://y2mate.com", isDownloader: true },
-            { id: 12, title: "Instagram Downloader", category: "downloaders", iconClass: "fab fa-instagram", background: "linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D)", description: "Download Instagram photos, videos, and reels.", link: "https://downloadgram.com", isDownloader: true },
-            { id: 13, title: "TikTok Downloader", category: "downloaders", iconClass: "fab fa-tiktok", background: "#000000", description: "Download TikTok videos without watermark.", link: "https://snaptik.app", isDownloader: true },
+            // Utilities (20)
+            { name: "Google Maps", category: "Utilities", icon: "fas fa-map-marked-alt", color: "#4285f4", url: "https://maps.google.com/", desc: "Web mapping service" },
+            { name: "Google Translate", category: "Utilities", icon: "fas fa-language", color: "#4285f4", url: "https://translate.google.com/", desc: "Multilingual neural machine translation" },
+            { name: "Google Drive", category: "Utilities", icon: "fab fa-google-drive", color: "#4285f4", url: "https://drive.google.com/", desc: "File storage and synchronization" },
+            { name: "Dropbox", category: "Utilities", icon: "fab fa-dropbox", color: "#0061ff", url: "https://www.dropbox.com/", desc: "File hosting service" },
+            { name: "Adobe Acrobat", category: "Utilities", icon: "fas fa-file-pdf", color: "#ee3f24", url: "https://acrobat.adobe.com/", desc: "PDF creation and editing" },
+            { name: "Grammarly", category: "Utilities", icon: "fas fa-spell-check", color: "#15c39a", url: "https://www.grammarly.com/", desc: "Writing assistant" },
+            { name: "Zoom", category: "Utilities", icon: "fas fa-video", color: "#2d8cff", url: "https://zoom.us/", desc: "Video conferencing service" },
+            { name: "Chrome", category: "Utilities", icon: "fab fa-chrome", color: "#4285f4", url: "https://www.google.com/chrome/", desc: "Web browser" },
+            { name: "Firefox", category: "Utilities", icon: "fab fa-firefox", color: "#ff7139", url: "https://www.mozilla.org/firefox/", desc: "Web browser" },
+            { name: "LastPass", category: "Utilities", icon: "fas fa-lock", color: "#d32d2d", url: "https://www.lastpass.com/", desc: "Password manager" },
+            { name: "Calendly", category: "Utilities", icon: "fas fa-calendar-check", color: "#00a2ff", url: "https://calendly.com/", desc: "Scheduling tool" },
+            { name: "Canva", category: "Utilities", icon: "fas fa-palette", color: "#00c4cc", url: "https://www.canva.com/", desc: "Graphic design platform" },
+            { name: "Deepl", category: "Utilities", icon: "fas fa-language", color: "#0f2b46", url: "https://www.deepl.com/", desc: "AI-powered translation service" },
+            { name: "Google Calendar", category: "Utilities", icon: "fas fa-calendar", color: "#4285f4", url: "https://calendar.google.com/", desc: "Time-management and scheduling" },
+            { name: "Google Photos", category: "Utilities", icon: "fas fa-camera", color: "#4285f4", url: "https://photos.google.com/", desc: "Photo storage and sharing service" },
+            { name: "Google Authenticator", category: "Utilities", icon: "fas fa-mobile-alt", color: "#4285f4", url: "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2", desc: "Two-step verification service" },
+            { name: "Authy", category: "Utilities", icon: "fas fa-shield-alt", color: "#0076ff", url: "https://authy.com/", desc: "Two-factor authentication app" },
+            { name: "1Password", category: "Utilities", icon: "fas fa-key", color: "#e54a2f", url: "https://1password.com/", desc: "Password manager and digital vault" },
+            { name: "Bitwarden", category: "Utilities", icon: "fas fa-user-lock", color: "#175ddc", url: "https://bitwarden.com/", desc: "Free and open-source password manager" },
+            { name: "Snagit", category: "Utilities", icon: "fas fa-camera", color: "#ff6c37", url: "https://www.techsmith.com/screen-capture.html", desc: "Screen capture and recording software" },
+            
+            // Finance (15)
+            { name: "PayPal", category: "Finance", icon: "fab fa-paypal", color: "#003087", url: "https://www.paypal.com/", desc: "Online payments system" },
+            { name: "Venmo", category: "Finance", icon: "fas fa-money-bill-wave", color: "#3d95ce", url: "https://venmo.com/", desc: "Mobile payment service" },
+            { name: "Mint", category: "Finance", icon: "fas fa-chart-line", color: "#00c27b", url: "https://mint.intuit.com/", desc: "Personal finance management" },
+            { name: "Robinhood", category: "Finance", icon: "fas fa-chart-bar", color: "#00c805", url: "https://robinhood.com/", desc: "Stock trading app" },
+            { name: "Coinbase", category: "Finance", icon: "fas fa-coins", color: "#1652f0", url: "https://www.coinbase.com/", desc: "Cryptocurrency exchange" },
+            { name: "Revolut", category: "Finance", icon: "fas fa-wallet", color: "#0075eb", url: "https://www.revolut.com/", desc: "Banking alternative" },
+            { name: "YNAB", category: "Finance", icon: "fas fa-calculator", color: "#0f7dc2", url: "https://www.youneedabudget.com/", desc: "Budgeting software" },
+            { name: "Credit Karma", category: "Finance", icon: "fas fa-credit-card", color: "#00b9a9", url: "https://www.creditkarma.com/", desc: "Credit monitoring service" },
+            { name: "Acorns", category: "Finance", icon: "fas fa-piggy-bank", color: "#00b050", url: "https://www.acorns.com/", desc: "Micro-investing platform" },
+            { name: "TransferWise", category: "Finance", icon: "fas fa-exchange-alt", color: "#00b9ff", url: "https://wise.com/", desc: "International money transfer" },
+            { name: "Bloomberg", category: "Finance", icon: "fas fa-chart-pie", color: "#000000", url: "https://www.bloomberg.com/", desc: "Financial news and data" },
+            { name: "eToro", category: "Finance", icon: "fas fa-hand-holding-usd", color: "#7b00f7", url: "https://www.etoro.com/", desc: "Social trading platform" },
+            { name: "Chime", category: "Finance", icon: "fas fa-mobile-alt", color: "#5bc4a4", url: "https://www.chime.com/", desc: "Mobile banking app" },
+            { name: "Square", category: "Finance", icon: "fas fa-cash-register", color: "#259d8f", url: "https://squareup.com/", desc: "Payment processing solutions" },
+            { name: "Betterment", category: "Finance", icon: "fas fa-chart-area", color: "#2e5bff", url: "https://www.betterment.com/", desc: "Automated investing service" },
+            
+            // Shopping (15)
+            { name: "Amazon", category: "Shopping", icon: "fab fa-amazon", color: "#ff9900", url: "https://www.amazon.com/", desc: "E-commerce and cloud computing" },
+            { name: "eBay", category: "Shopping", icon: "fab fa-ebay", color: "#e53238", url: "https://www.ebay.com/", desc: "Online auction and shopping" },
+            { name: "Etsy", category: "Shopping", icon: "fab fa-etsy", color: "#f16521", url: "https://www.etsy.com/", desc: "Handmade and vintage items marketplace" },
+            { name: "AliExpress", category: "Shopping", icon: "fas fa-shopping-cart", color: "#ff4747", url: "https://www.aliexpress.com/", desc: "Online retail service" },
+            { name: "Walmart", category: "Shopping", icon: "fas fa-store", color: "#007dc6", url: "https://www.walmart.com/", desc: "Multinational retail corporation" },
+            { name: "Target", category: "Shopping", icon: "fas fa-bullseye", color: "#cc0000", url: "https://www.target.com/", desc: "Retail corporation" },
+            { name: "Best Buy", category: "Shopping", icon: "fas fa-laptop", color: "#003b64", url: "https://www.bestbuy.com/", desc: "Consumer electronics retailer" },
+            { name: "Zara", category: "Shopping", icon: "fas fa-tshirt", color: "#000000", url: "https://www.zara.com/", desc: "Fast fashion retailer" },
+            { name: "Sephora", category: "Shopping", icon: "fas fa-paint-brush", color: "#e3008c", url: "https://www.sephora.com/", desc: "Cosmetics and beauty products" },
+            { name: "IKEA", category: "Shopping", icon: "fas fa-couch", color: "#ffcc00", url: "https://www.ikea.com/", desc: "Ready-to-assemble furniture" },
+            { name: "ASOS", category: "Shopping", icon: "fas fa-shopping-bag", color: "#000000", url: "https://www.asos.com/", desc: "Online fashion retailer" },
+            { name: "Nordstrom", category: "Shopping", icon: "fas fa-vest", color: "#000000", url: "https://www.nordstrom.com/", desc: "Luxury department store" },
+            { name: "Wayfair", category: "Shopping", icon: "fas fa-home", color: "#84c225", url: "https://www.wayfair.com/", desc: "Home goods e-commerce" },
+            { name: "Newegg", category: "Shopping", icon: "fas fa-desktop", color: "#004b91", url: "https://www.newegg.com/", desc: "Electronics e-commerce" },
+            { name: "Groupon", category: "Shopping", icon: "fas fa-tag", color: "#53a318", url: "https://www.groupon.com/", desc: "Deals and coupons platform" },
+            
+            // Health & Fitness (15)
+            { name: "MyFitnessPal", category: "Health & Fitness", icon: "fas fa-apple-alt", color: "#0cbaba", url: "https://www.myfitnesspal.com/", desc: "Diet and exercise tracker" },
+            { name: "Fitbit", category: "Health & Fitness", icon: "fas fa-running", color: "#00b0b9", url: "https://www.fitbit.com/", desc: "Activity trackers and apps" },
+            { name: "Headspace", category: "Health & Fitness", icon: "fas fa-brain", color: "#f47f6b", url: "https://www.headspace.com/", desc: "Meditation and mindfulness app" },
+            { name: "Calm", category: "Health & Fitness", icon: "fas fa-spa", color: "#0aa5a3", url: "https://www.calm.com/", desc: "Meditation and sleep app" },
+            { name: "Strava", category: "Health & Fitness", icon: "fas fa-bicycle", color: "#fc4c02", url: "https://www.strava.com/", desc: "Athlete social network" },
+            { name: "Nike Training Club", category: "Health & Fitness", icon: "fas fa-dumbbell", color: "#000000", url: "https://www.nike.com/ntc-app", desc: "Workout and training plans" },
+            { name: "Peloton", category: "Health & Fitness", icon: "fas fa-heartbeat", color: "#000000", url: "https://www.onepeloton.com/app", desc: "Interactive fitness platform" },
+            { name: "WebMD", category: "Health & Fitness", icon: "fas fa-heart", color: "#7ac143", url: "https://www.webmd.com/", desc: "Health information services" },
+            { name: "Medisafe", category: "Health & Fitness", icon: "fas fa-pills", color: "#4a90e2", url: "https://www.medisafe.com/", desc: "Medication management app" },
+            { name: "Clue", category: "Health & Fitness", icon: "fas fa-female", color: "#ff7bac", url: "https://helloclue.com/", desc: "Period and ovulation tracker" },
+            { name: "Zocdoc", category: "Health & Fitness", icon: "fas fa-user-md", color: "#00bcd4", url: "https://www.zocdoc.com/", desc: "Medical care appointment booking" },
+            { name: "8fit", category: "Health & Fitness", icon: "fas fa-walking", color: "#00c9ac", url: "https://8fit.com/", desc: "Personalized workouts and meal plans" },
+            { name: "Sleep Cycle", category: "Health & Fitness", icon: "fas fa-bed", color: "#2e5bff", url: "https://www.sleepcycle.com/", desc: "Sleep tracking alarm clock" },
+            { name: "WaterMinder", category: "Health & Fitness", icon: "fas fa-tint", color: "#2e86de", url: "https://waterminder.com/", desc: "Hydration tracker and reminder" },
+            { name: "Lifesum", category: "Health & Fitness", icon: "fas fa-utensils", color: "#4cd964", url: "https://lifesum.com/", desc: "Nutrition and diet tracker" },
+            
+            // Education (15)
+            { name: "Duolingo", category: "Education", icon: "fas fa-language", color: "#78c800", url: "https://www.duolingo.com/", desc: "Language learning platform" },
+            { name: "Khan Academy", category: "Education", icon: "fas fa-graduation-cap", color: "#14bf96", url: "https://www.khanacademy.org/", desc: "Free online courses" },
+            { name: "Coursera", category: "Education", icon: "fas fa-book-open", color: "#0056d2", url: "https://www.coursera.org/", desc: "Online courses from universities" },
+            { name: "Udemy", category: "Education", icon: "fas fa-laptop-code", color: "#ec5252", url: "https://www.udemy.com/", desc: "Online learning platform" },
+            { name: "Quizlet", category: "Education", icon: "fas fa-question-circle", color: "#4257b2", url: "https://quizlet.com/", desc: "Digital flashcards and study tools" },
+            { name: "edX", category: "Education", icon: "fas fa-university", color: "#022b39", url: "https://www.edx.org/", desc: "Online university courses" },
+            { name: "Photomath", category: "Education", icon: "fas fa-calculator", color: "#4c8bf5", url: "https://photomath.com/", desc: "Math problem solver" },
+            { name: "Babbel", category: "Education", icon: "fas fa-comments", color: "#ff8a00", url: "https://www.babbel.com/", desc: "Language learning app" },
+            { name: "Rosetta Stone", category: "Education", icon: "fas fa-globe-americas", color: "#0098da", url: "https://www.rosettastone.com/", desc: "Language learning software" },
+            { name: "Brilliant", category: "Education", icon: "fas fa-lightbulb", color: "#000000", url: "https://brilliant.org/", desc: "Math and science education" },
+            { name: "Udacity", category: "Education", icon: "fas fa-code", color: "#01b3e3", url: "https://www.udacity.com/", desc: "Technology education platform" },
+            { name: "Skillshare", category: "Education", icon: "fas fa-paint-brush", color: "#00ff99", url: "https://www.skillshare.com/", desc: "Online learning community" },
+            { name: "MasterClass", category: "Education", icon: "fas fa-chalkboard-teacher", color: "#000000", url: "https://www.masterclass.com/", desc: "Online classes taught by experts" },
+            { name: "Google Classroom", category: "Education", icon: "fas fa-school", color: "#4285f4", url: "https://classroom.google.com/", desc: "Educational platform for schools" },
+            { name: "Codecademy", category: "Education", icon: "fas fa-laptop-code", color: "#1f4056", url: "https://www.codecademy.com/", desc: "Interactive coding lessons" },
+            
+            // Travel (10)
+            { name: "Airbnb", category: "Travel", icon: "fas fa-home", color: "#ff5a5f", url: "https://www.airbnb.com/", desc: "Lodging and tourism experiences" },
+            { name: "Booking.com", category: "Travel", icon: "fas fa-hotel", color: "#003580", url: "https://www.booking.com/", desc: "Travel reservation service" },
+            { name: "Uber", category: "Travel", icon: "fas fa-taxi", color: "#000000", url: "https://www.uber.com/", desc: "Ride-hailing service" },
+            { name: "Lyft", category: "Travel", icon: "fas fa-car", color: "#ff00bf", url: "https://www.lyft.com/", desc: "Ride-hailing service" },
+            { name: "TripAdvisor", category: "Travel", icon: "fas fa-map-marked-alt", color: "#34e0a1", url: "https://www.tripadvisor.com/", desc: "Travel planning and booking" },
+            { name: "Kayak", category: "Travel", icon: "fas fa-plane", color: "#1a6dca", url: "https://www.kayak.com/", desc: "Travel search engine" },
+            { name: "Expedia", category: "Travel", icon: "fas fa-suitcase-rolling", color: "#222222", url: "https://www.expedia.com/", desc: "Travel fare aggregator" },
+            { name: "Google Flights", category: "Travel", icon: "fas fa-plane-departure", color: "#4285f4", url: "https://www.google.com/flights", desc: "Airline ticket price comparison" },
+            { name: "Skyscanner", category: "Travel", icon: "fas fa-search-location", color: "#0668e1", url: "https://www.skyscanner.com/", desc: "Travel search engine" },
+            { name: "Hopper", category: "Travel", icon: "fas fa-frog", color: "#5a2d82", url: "https://www.hopper.com/", desc: "Flight and hotel price prediction" },
+            
+            // Media Tools (10)
+            { name: "YouTube Downloader", category: "Media Tools", icon: "fab fa-youtube", color: "#ff0000", url: "#", desc: "Download YouTube videos in multiple formats", type: "downloader" },
+            { name: "Instagram Downloader", category: "Media Tools", icon: "fab fa-instagram", color: "#e1306c", url: "#", desc: "Save Instagram photos, videos, and stories", type: "downloader" },
+            { name: "TikTok Downloader", category: "Media Tools", icon: "fab fa-tiktok", color: "#000000", url: "#", desc: "Download TikTok videos without watermark", type: "downloader" },
+            { name: "Twitter Downloader", category: "Media Tools", icon: "fab fa-twitter", color: "#1da1f2", url: "#", desc: "Save videos from Twitter tweets", type: "downloader" },
+            { name: "Facebook Downloader", category: "Media Tools", icon: "fab fa-facebook", color: "#3b5998", url: "#", desc: "Download videos from Facebook", type: "downloader" },
+            { name: "Video Converter", category: "Media Tools", icon: "fas fa-file-video", color: "#9c27b0", url: "#", desc: "Convert video files to different formats", type: "tool" },
+            { name: "Audio Extractor", category: "Media Tools", icon: "fas fa-music", color: "#2196f3", url: "#", desc: "Extract audio from video files", type: "tool" },
+            { name: "Image Compressor", category: "Media Tools", icon: "fas fa-file-image", color: "#4caf50", url: "#", desc: "Compress images without quality loss", type: "tool" },
+            { name: "Video Trimmer", category: "Media Tools", icon: "fas fa-cut", color: "#ff5722", url: "#", desc: "Trim and edit video clips online", type: "tool" },
+            { name: "Media Converter", category: "Media Tools", icon: "fas fa-exchange-alt", color: "#9c27b0", url: "#", desc: "Convert between various media formats", type: "tool" }
         ];
-
+        
+        // Unique categories
+        const categories = [...new Set(apps.map(app => app.category))];
+        
         // DOM elements
-        const appsGrid = document.getElementById('appsGrid');
+        const appGrid = document.getElementById('appGrid');
+        const categoriesContainer = document.getElementById('categoriesContainer');
         const searchInput = document.getElementById('searchInput');
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const savedBtn = document.getElementById('savedBtn');
-        const accountBtn = document.getElementById('accountBtn');
-        const accountText = document.getElementById('accountText');
-        const savedModal = document.getElementById('savedModal');
-        const accountModal = document.getElementById('accountModal');
-        const closeBtns = document.querySelectorAll('.close-btn');
-        const showSignup = document.getElementById('showSignup');
-        const showLogin = document.getElementById('showLogin');
-        const loginForm = document.getElementById('loginForm');
-        const signupForm = document.getElementById('signupForm');
-        const userProfile = document.getElementById('userProfile');
-        const loginBtn = document.getElementById('loginBtn');
-        const signupBtn = document.getElementById('signupBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const accountModalTitle = document.getElementById('accountModalTitle');
-        const savedAppsContainer = document.getElementById('savedAppsContainer');
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
-        const userAvatar = document.getElementById('userAvatar');
-        const savedText = document.getElementById('savedText');
-        const savedModalTitle = document.getElementById('savedModalTitle');
+        const appCount = document.getElementById('appCount');
+        const viewAllBtn = document.getElementById('viewAllBtn');
+        const filterBtn = document.getElementById('filterBtn');
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingProgress = document.getElementById('loading-progress');
         
-        // State
-        let currentUser = null;
+        // Current filter state
+        let currentCategory = 'all';
+        let currentSearch = '';
         
-        // Initialize
+        // Initialize the app
         function init() {
-            // Load user from localStorage
-            const userData = localStorage.getItem('currentUser');
-            if (userData) {
-                currentUser = JSON.parse(userData);
-                updateAccountUI();
-            }
-            
-            // Render all apps initially
+            renderCategories();
             renderApps(apps);
-            
-            // Event listeners
             setupEventListeners();
+            
+            // Simulate loading progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                loadingProgress.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }, 500);
+                }
+            }, 200);
         }
         
-        // Setup event listeners
-        function setupEventListeners() {
-            // Search functionality
-            searchInput.addEventListener('input', function() {
-                const term = this.value.trim();
-                const filteredApps = searchApps(term);
-                renderApps(filteredApps);
-            });
+        // Render category buttons
+        function renderCategories() {
+            // Add "All" category
+            const allBtn = document.createElement('button');
+            allBtn.classList.add('category-btn', 'active');
+            allBtn.setAttribute('data-category', 'all');
+            allBtn.textContent = 'All Apps';
+            categoriesContainer.appendChild(allBtn);
             
-            // Category filtering
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    
-                    // Update active button
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Filter and render apps
-                    const filteredApps = filterAppsByCategory(category);
-                    renderApps(filteredApps);
-                });
-            });
-            
-            // Modal controls
-            savedBtn.addEventListener('click', showSavedModal);
-            accountBtn.addEventListener('click', showAccountModal);
-            
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    savedModal.style.display = 'none';
-                    accountModal.style.display = 'none';
-                });
-            });
-            
-            // Switch between login/signup
-            showSignup.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginForm.style.display = 'none';
-                signupForm.style.display = 'block';
-                accountModalTitle.textContent = 'Create Account';
-            });
-            
-            showLogin.addEventListener('click', function(e) {
-                e.preventDefault();
-                signupForm.style.display = 'none';
-                loginForm.style.display = 'block';
-                accountModalTitle.textContent = 'Account Login';
-            });
-            
-            // Account actions
-            loginBtn.addEventListener('click', login);
-            signupBtn.addEventListener('click', signup);
-            logoutBtn.addEventListener('click', logout);
-            
-            // Close modals when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === savedModal) {
-                    savedModal.style.display = 'none';
-                }
-                if (e.target === accountModal) {
-                    accountModal.style.display = 'none';
-                }
+            // Add other categories
+            categories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.classList.add('category-btn');
+                btn.setAttribute('data-category', category);
+                btn.textContent = category;
+                categoriesContainer.appendChild(btn);
             });
         }
         
-        // Render apps
+        // Render apps based on filter
         function renderApps(appsToRender) {
-            appsGrid.innerHTML = '';
+            appGrid.innerHTML = '';
+            appCount.textContent = appsToRender.length;
             
             if (appsToRender.length === 0) {
-                appsGrid.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <h3>No apps found</h3>
-                        <p>Try adjusting your search or filter</p>
-                    </div>
+                const noResults = document.createElement('div');
+                noResults.classList.add('no-results');
+                noResults.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <h3>No apps found</h3>
+                    <p>Try a different search term or category</p>
                 `;
+                appGrid.appendChild(noResults);
                 return;
             }
             
-            appsToRender.forEach(app => {
-                const isSaved = currentUser ? isAppSavedForUser(app.id) : false;
+            appsToRender.forEach((app, index) => {
                 const appCard = document.createElement('div');
-                appCard.className = 'app-card';
-                if (app.isDownloader) {
-                    appCard.classList.add('downloader');
-                }
-                appCard.dataset.category = app.category;
+                appCard.classList.add('app-card');
+                appCard.style.animationDelay = `${index * 0.05}s`;
+                
+                const isDownloader = app.type === 'downloader' || app.type === 'tool';
+                
                 appCard.innerHTML = `
-                    <div class="app-icon" style="background: ${app.background}">
-                        <i class="${app.iconClass}" style="color: white;"></i>
-                        <button class="save-btn ${isSaved ? 'saved' : ''}" data-app-id="${app.id}">
-                            <i class="${isSaved ? 'fas' : 'far'} fa-heart"></i>
+                    <div class="app-icon" style="background: ${app.color}">
+                        <i class="${app.icon}"></i>
+                    </div>
+                    <div class="app-info">
+                        <h3 class="app-name">${app.name}</h3>
+                        <span class="app-category">${app.category}</span>
+                        <p class="app-desc">${app.desc}</p>
+                        ${isDownloader ? '<div class="disclaimer">Respect copyright laws when downloading content</div>' : ''}
+                        <button class="app-link ${isDownloader ? 'download' : ''}">
+                            ${isDownloader ? '<i class="fas fa-download"></i> Download Tool' : 'Visit App'}
                         </button>
                     </div>
-                    <div class="app-content">
-                        <div class="app-title">${app.title}</div>
-                        <div class="app-category">${getCategoryName(app.category)}</div>
-                        <div class="app-description">${app.description}</div>
-                        <a href="${app.link}" class="app-link" target="_blank">Visit</a>
-                    </div>
                 `;
-                appsGrid.appendChild(appCard);
-            });
-            
-            // Add save button event listeners
-            document.querySelectorAll('.save-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (!currentUser) {
-                        showAccountModal();
-                        return;
+                
+                // Add click handler for download tools
+                const button = appCard.querySelector('.app-link');
+                button.addEventListener('click', () => {
+                    if (isDownloader) {
+                        alert(`Launching ${app.name} tool...\n\nPlease note: Downloading copyrighted content without permission may be illegal in your country.`);
+                    } else {
+                        window.open(app.url, '_blank');
                     }
-                    
-                    const appId = parseInt(this.dataset.appId);
-                    toggleSaveApp(appId);
                 });
+                
+                appGrid.appendChild(appCard);
             });
         }
         
-        // Check if an app is saved for the current user
-        function isAppSavedForUser(appId) {
-            if (!currentUser) return false;
+        // Filter apps based on category and search term
+        function filterApps() {
+            let filteredApps = apps;
             
-            const savedApps = getUserSavedApps();
-            return savedApps.includes(appId);
-        }
-        
-        // Get saved apps for current user
-        function getUserSavedApps() {
-            if (!currentUser) return [];
-            
-            const userData = localStorage.getItem(`user_${currentUser.email}`);
-            return userData ? JSON.parse(userData).savedApps || [] : [];
-        }
-        
-        // Toggle save app for current user
-        function toggleSaveApp(appId) {
-            if (!currentUser) return;
-            
-            const userData = localStorage.getItem(`user_${currentUser.email}`);
-            const user = userData ? JSON.parse(userData) : {
-                name: currentUser.name,
-                email: currentUser.email,
-                savedApps: []
-            };
-            
-            const index = user.savedApps.indexOf(appId);
-            
-            if (index === -1) {
-                user.savedApps.push(appId);
-            } else {
-                user.savedApps.splice(index, 1);
+            // Apply category filter
+            if (currentCategory !== 'all') {
+                filteredApps = filteredApps.filter(app => app.category === currentCategory);
             }
             
-            // Save updated user data
-            localStorage.setItem(`user_${currentUser.email}`, JSON.stringify(user));
+            // Apply search filter
+            if (currentSearch) {
+                const searchLower = currentSearch.toLowerCase();
+                filteredApps = filteredApps.filter(app => 
+                    app.name.toLowerCase().includes(searchLower) || 
+                    app.category.toLowerCase().includes(searchLower) ||
+                    app.desc.toLowerCase().includes(searchLower)
+                );
+            }
             
-            // Update UI
-            updateSavedCounter();
-            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-            const filteredApps = filterAppsByCategory(activeCategory);
             renderApps(filteredApps);
         }
         
-        // Update saved counter
-        function updateSavedCounter() {
-            if (!currentUser) {
-                savedText.textContent = 'Saved';
-                return;
-            }
+        // Set up event listeners
+        function setupEventListeners() {
+            // Category filter buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelector('.category-btn.active').classList.remove('active');
+                    btn.classList.add('active');
+                    currentCategory = btn.getAttribute('data-category');
+                    filterApps();
+                });
+            });
             
-            const savedApps = getUserSavedApps();
-            savedText.textContent = `Saved (${savedApps.length})`;
-        }
-        
-        // Show saved apps modal
-        function showSavedModal() {
-            if (!currentUser) {
-                showAccountModal();
-                return;
-            }
+            // Search input
+            searchInput.addEventListener('input', () => {
+                currentSearch = searchInput.value.trim();
+                filterApps();
+            });
             
-            savedModal.style.display = 'flex';
-            renderSavedApps();
-        }
-        
-        // Render saved apps in modal
-        function renderSavedApps() {
-            const savedApps = getUserSavedApps();
+            // View all button
+            viewAllBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                currentSearch = '';
+                document.querySelector('.category-btn.active').classList.remove('active');
+                document.querySelector('.category-btn[data-category="all"]').classList.add('active');
+                currentCategory = 'all';
+                filterApps();
+            });
             
-            if (savedApps.length === 0) {
-                savedAppsContainer.innerHTML = `
-                    <div class="saved-apps-empty">
-                        <i class="fas fa-bookmark"></i>
-                        <h3>No saved apps yet</h3>
-                        <p>Save your favorite apps to access them quickly</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            savedModalTitle.textContent = `${currentUser.name}'s Saved Apps`;
-            savedAppsContainer.innerHTML = `
-                <h3 style="margin-bottom: 15px;">Your Saved Apps (${savedApps.length})</h3>
-                <div class="saved-apps-grid"></div>
-            `;
-            
-            const savedAppsGrid = savedAppsContainer.querySelector('.saved-apps-grid');
-            
-            savedApps.forEach(appId => {
-                const app = apps.find(a => a.id === appId);
-                if (app) {
-                    const appCard = document.createElement('div');
-                    appCard.className = 'app-card';
-                    appCard.innerHTML = `
-                        <div class="app-icon" style="background: ${app.background}">
-                            <i class="${app.iconClass}" style="color: white;"></i>
-                        </div>
-                        <div class="app-content">
-                            <div class="app-title">${app.title}</div>
-                            <a href="${app.link}" class="app-link" target="_blank">Visit</a>
-                        </div>
-                    `;
-                    savedAppsGrid.appendChild(appCard);
-                }
+            // Filter button
+            filterBtn.addEventListener('click', () => {
+                document.querySelector('.category-filter').scrollIntoView({ behavior: 'smooth' });
             });
         }
         
-        // Show account modal
-        function showAccountModal() {
-            accountModal.style.display = 'flex';
-            
-            if (currentUser) {
-                showUserProfile();
-            } else {
-                showLoginForm();
-            }
-        }
-        
-        // Show login form
-        function showLoginForm() {
-            loginForm.style.display = 'block';
-            signupForm.style.display = 'none';
-            userProfile.style.display = 'none';
-            accountModalTitle.textContent = 'Account Login';
-        }
-        
-        // Show user profile
-        function showUserProfile() {
-            loginForm.style.display = 'none';
-            signupForm.style.display = 'none';
-            userProfile.style.display = 'block';
-            accountModalTitle.textContent = 'Your Account';
-            
-            userName.textContent = currentUser.name;
-            userEmail.textContent = currentUser.email;
-            userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-            updateSavedCounter();
-        }
-        
-        // Login function
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                alert('Please enter both email and password');
-                return;
-            }
-            
-            // In a real app, this would be a server request
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-                currentUser = {
-                    name: user.name,
-                    email: user.email
-                };
-                
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateAccountUI();
-                showUserProfile();
-            } else {
-                alert('Invalid email or password');
-            }
-        }
-        
-        // Signup function
-        function signup() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (!name || !email || !password || !confirmPassword) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-            
-            // Save user to "database"
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            
-            // Check if user already exists
-            if (users.some(u => u.email === email)) {
-                alert('Email already registered');
-                return;
-            }
-            
-            // Add new user
-            users.push({
-                name,
-                email,
-                password // In a real app, passwords should be hashed
-            });
-            
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            // Log in the new user
-            currentUser = { name, email };
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            // Create user-specific storage
-            localStorage.setItem(`user_${email}`, JSON.stringify({
-                name,
-                email,
-                savedApps: []
-            }));
-            
-            updateAccountUI();
-            showUserProfile();
-            
-            // Clear form
-            document.getElementById('name').value = '';
-            document.getElementById('signupEmail').value = '';
-            document.getElementById('signupPassword').value = '';
-            document.getElementById('confirmPassword').value = '';
-        }
-        
-        // Logout function
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            updateAccountUI();
-            showLoginForm();
-            accountModal.style.display = 'none';
-        }
-        
-        // Update account UI
-        function updateAccountUI() {
-            if (currentUser) {
-                accountText.textContent = currentUser.name.split(' ')[0];
-                savedBtn.disabled = false;
-                updateSavedCounter();
-            } else {
-                accountText.textContent = 'Account';
-                savedBtn.disabled = false;
-                savedText.textContent = 'Saved';
-            }
-        }
-        
-        // Get category display name
-        function getCategoryName(category) {
-            const names = {
-                'social': 'Social Media',
-                'productivity': 'Productivity',
-                'entertainment': 'Entertainment',
-                'utilities': 'Utilities',
-                'shopping': 'Shopping',
-                'finance': 'Finance',
-                'health': 'Health & Fitness',
-                'travel': 'Travel',
-                'news': 'News',
-                'food': 'Food',
-                'education': 'Education',
-                'downloaders': 'Downloaders'
-            };
-            return names[category] || category;
-        }
-        
-        // Filter apps by category
-        function filterAppsByCategory(category) {
-            if (category === 'all') return apps;
-            return apps.filter(app => app.category === category);
-        }
-        
-        // Search apps
-        function searchApps(term) {
-            if (!term) return apps;
-            term = term.toLowerCase();
-            return apps.filter(app => 
-                app.title.toLowerCase().includes(term) || 
-                app.description.toLowerCase().includes(term) ||
-                getCategoryName(app.category).toLowerCase().includes(term)
-            );
-        }
-        
-        // Initialize the app
-        init();
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
