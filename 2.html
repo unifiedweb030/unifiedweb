@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Hub - Personalized App Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --success: #4ade80;
+            --warning: #facc15;
+            --danger: #f87171;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .search-container input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-container i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            pointer-events: none;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px 0;
+            gap: 10px;
+            margin: 20px 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-btn {
+            padding: 10px 22px;
+            border-radius: 50px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: var(--dark);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .section-title {
+            margin: 30px 0 20px;
+            font-size: 1.8rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--primary);
+        }
+        
+        .section-title .app-count {
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .app-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+        }
+        
+        .app-card.downloader {
+            border: 2px solid var(--success);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.2);
+        }
+        
+        .app-card.downloader::after {
+            content: "Downloader";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .app-icon {
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            position: relative;
+        }
+        
+        .save-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .save-btn:hover {
+            background: white;
+            color: var(--danger);
+            transform: scale(1.1);
+        }
+        
+        .save-btn.saved {
+            color: var(--danger);
+        }
+        
+        .app-content {
+            padding: 20px;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .app-category {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .app-description {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+        
+        .app-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .app-link:hover {
+            background: var(--secondary);
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0 40px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: modalOpen 0.3s ease-out;
+        }
+        
+        @keyframes modalOpen {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .modal-footer {
+            padding: 0 30px 30px;
+            text-align: center;
+        }
+        
+        .modal-footer p {
+            margin-top: 15px;
+            color: var(--gray);
+        }
+        
+        .modal-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-block:hover {
+            background: var(--secondary);
+        }
+        
+        .saved-apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .saved-apps-empty {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--gray);
+        }
+        
+        .saved-apps-empty i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 0.9rem;
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+            
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .app-icon {
+                height: 100px;
+            }
+            
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-th-large"></i>
+                    <span>App Hub</span>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for apps...">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <div class="user-actions">
+                    <button id="savedBtn" class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> <span id="savedText">Saved</span>
+                    </button>
+                    <button id="accountBtn" class="btn btn-primary">
+                        <i class="fas fa-user"></i> <span id="accountText">Account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Apps Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Access</div>
+            </div>
+        </div>
+        
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All Apps</button>
+            <button class="category-btn" data-category="social">Social Media</button>
+            <button class="category-btn" data-category="productivity">Productivity</button>
+            <button class="category-btn" data-category="entertainment">Entertainment</button>
+            <button class="category-btn" data-category="utilities">Utilities</button>
+            <button class="category-btn" data-category="shopping">Shopping</button>
+            <button class="category-btn" data-category="finance">Finance</button>
+            <button class="category-btn" data-category="health">Health & Fitness</button>
+            <button class="category-btn" data-category="travel">Travel</button>
+            <button class="category-btn" data-category="news">News</button>
+            <button class="category-btn" data-category="food">Food</button>
+            <button class="category-btn" data-category="education">Education</button>
+            <button class="category-btn" data-category="downloaders">Downloaders</button>
+        </div>
+        
+        <h2 class="section-title">
+            <i class="fas fa-globe"></i> All Applications <span class="app-count">100+</span>
+        </h2>
+        
+        <div class="apps-grid" id="appsGrid">
+            <!-- Apps will be populated by JavaScript -->
+        </div>
+        
+        <div class="footer">
+            <p>App Hub &copy; 2023 | Your daily app collection with 100+ essential applications</p>
+            <p>Designed for convenience and productivity - all your apps in one place</p>
+        </div>
+    </div>
+
+    <!-- Saved Apps Modal -->
+    <div id="savedModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="savedModalTitle">Your Saved Apps</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="savedAppsContainer">
+                    <div class="saved-apps-empty">
+                        <i class="fas fa-bookmark"></i>
+                        <h3>No saved apps yet</h3>
+                        <p>Save your favorite apps to access them quickly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="accountModalTitle">Account Login</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="loginBtn" class="btn-block">Login</button>
+                        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+                    </div>
+                </div>
+                
+                <div id="signupForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="signupBtn" class="btn-block">Create Account</button>
+                        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+                    </div>
+                </div>
+                
+                <div id="userProfile" style="display: none;">
+                    <div class="user-info" style="justify-content: center; margin-bottom: 30px;">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div>
+                            <h3 id="userName">User Name</h3>
+                            <p id="userEmail">user@example.com</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="logoutBtn" class="btn-block">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App data with 100+ apps
+        const apps = [
+            // Social Media
+            { id: 1, title: "Facebook", category: "social", iconClass: "fab fa-facebook", background: "#4267B2", description: "Connect with friends, family and people who share the same interests.", link: "https://www.facebook.com" },
+            { id: 2, title: "Instagram", category: "social", iconClass: "fab fa-instagram", background: "linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D)", description: "Share photos and videos with creative tools, filters and effects.", link: "https://www.instagram.com" },
+            { id: 3, title: "Twitter", category: "social", iconClass: "fab fa-twitter", background: "#1DA1F2", description: "See what's happening in the world right now through conversations.", link: "https://twitter.com" },
+            { id: 4, title: "LinkedIn", category: "social", iconClass: "fab fa-linkedin", background: "#0A66C2", description: "Build and engage with your professional network.", link: "https://www.linkedin.com" },
+            
+            // Productivity
+            { id: 5, title: "Google Drive", category: "productivity", iconClass: "fab fa-google-drive", background: "#4285F4", description: "Cloud storage and file backup with collaborative editing tools.", link: "https://drive.google.com" },
+            { id: 6, title: "Trello", category: "productivity", iconClass: "fas fa-tasks", background: "#7B68EE", description: "Organize anything with boards, lists, and cards for project management.", link: "https://trello.com" },
+            { id: 7, title: "Notion", category: "productivity", iconClass: "fas fa-book", background: "#000000", description: "All-in-one workspace for notes, tasks, wikis, and databases.", link: "https://www.notion.so" },
+            
+            // Entertainment
+            { id: 8, title: "Netflix", category: "entertainment", iconClass: "fas fa-film", background: "#E50914", description: "Stream movies, TV shows, documentaries and more on any device.", link: "https://www.netflix.com" },
+            { id: 9, title: "Spotify", category: "entertainment", iconClass: "fab fa-spotify", background: "#1DB954", description: "Listen to music and podcasts with millions of songs and other content.", link: "https://www.spotify.com" },
+            { id: 10, title: "YouTube", category: "entertainment", iconClass: "fab fa-youtube", background: "#FF0000", description: "Watch and share videos from around the world.", link: "https://www.youtube.com" },
+            
+            // Downloaders
+            { id: 11, title: "YouTube Downloader", category: "downloaders", iconClass: "fab fa-youtube", background: "#FF0000", description: "Download YouTube videos in MP4, MP3, and other formats.", link: "https://y2mate.com", isDownloader: true },
+            { id: 12, title: "Instagram Downloader", category: "downloaders", iconClass: "fab fa-instagram", background: "linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D)", description: "Download Instagram photos, videos, and reels.", link: "https://downloadgram.com", isDownloader: true },
+            { id: 13, title: "TikTok Downloader", category: "downloaders", iconClass: "fab fa-tiktok", background: "#000000", description: "Download TikTok videos without watermark.", link: "https://snaptik.app", isDownloader: true },
+        ];
+
+        // DOM elements
+        const appsGrid = document.getElementById('appsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const savedBtn = document.getElementById('savedBtn');
+        const accountBtn = document.getElementById('accountBtn');
+        const accountText = document.getElementById('accountText');
+        const savedModal = document.getElementById('savedModal');
+        const accountModal = document.getElementById('accountModal');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const userProfile = document.getElementById('userProfile');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const accountModalTitle = document.getElementById('accountModalTitle');
+        const savedAppsContainer = document.getElementById('savedAppsContainer');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        const savedText = document.getElementById('savedText');
+        const savedModalTitle = document.getElementById('savedModalTitle');
+        
+        // State
+        let currentUser = null;
+        
+        // Initialize
+        function init() {
+            // Load user from localStorage
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                updateAccountUI();
+            }
+            
+            // Render all apps initially
+            renderApps(apps);
+            
+            // Event listeners
+            setupEventListeners();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const term = this.value.trim();
+                const filteredApps = searchApps(term);
+                renderApps(filteredApps);
+            });
+            
+            // Category filtering
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    
+                    // Update active button
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter and render apps
+                    const filteredApps = filterAppsByCategory(category);
+                    renderApps(filteredApps);
+                });
+            });
+            
+            // Modal controls
+            savedBtn.addEventListener('click', showSavedModal);
+            accountBtn.addEventListener('click', showAccountModal);
+            
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    savedModal.style.display = 'none';
+                    accountModal.style.display = 'none';
+                });
+            });
+            
+            // Switch between login/signup
+            showSignup.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                accountModalTitle.textContent = 'Create Account';
+            });
+            
+            showLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                accountModalTitle.textContent = 'Account Login';
+            });
+            
+            // Account actions
+            loginBtn.addEventListener('click', login);
+            signupBtn.addEventListener('click', signup);
+            logoutBtn.addEventListener('click', logout);
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === savedModal) {
+                    savedModal.style.display = 'none';
+                }
+                if (e.target === accountModal) {
+                    accountModal.style.display = 'none';
+                }
+            });
+        }
+        
+        // Render apps
+        function renderApps(appsToRender) {
+            appsGrid.innerHTML = '';
+            
+            if (appsToRender.length === 0) {
+                appsGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No apps found</h3>
+                        <p>Try adjusting your search or filter</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            appsToRender.forEach(app => {
+                const isSaved = currentUser ? isAppSavedForUser(app.id) : false;
+                const appCard = document.createElement('div');
+                appCard.className = 'app-card';
+                if (app.isDownloader) {
+                    appCard.classList.add('downloader');
+                }
+                appCard.dataset.category = app.category;
+                appCard.innerHTML = `
+                    <div class="app-icon" style="background: ${app.background}">
+                        <i class="${app.iconClass}" style="color: white;"></i>
+                        <button class="save-btn ${isSaved ? 'saved' : ''}" data-app-id="${app.id}">
+                            <i class="${isSaved ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="app-content">
+                        <div class="app-title">${app.title}</div>
+                        <div class="app-category">${getCategoryName(app.category)}</div>
+                        <div class="app-description">${app.description}</div>
+                        <a href="${app.link}" class="app-link" target="_blank">Visit</a>
+                    </div>
+                `;
+                appsGrid.appendChild(appCard);
+            });
+            
+            // Add save button event listeners
+            document.querySelectorAll('.save-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (!currentUser) {
+                        showAccountModal();
+                        return;
+                    }
+                    
+                    const appId = parseInt(this.dataset.appId);
+                    toggleSaveApp(appId);
+                });
+            });
+        }
+        
+        // Check if an app is saved for the current user
+        function isAppSavedForUser(appId) {
+            if (!currentUser) return false;
+            
+            const savedApps = getUserSavedApps();
+            return savedApps.includes(appId);
+        }
+        
+        // Get saved apps for current user
+        function getUserSavedApps() {
+            if (!currentUser) return [];
+            
+            const userData = localStorage.getItem(`user_${currentUser.email}`);
+            return userData ? JSON.parse(userData).savedApps || [] : [];
+        }
+        
+        // Toggle save app for current user
+        function toggleSaveApp(appId) {
+            if (!currentUser) return;
+            
+            const userData = localStorage.getItem(`user_${currentUser.email}`);
+            const user = userData ? JSON.parse(userData) : {
+                name: currentUser.name,
+                email: currentUser.email,
+                savedApps: []
+            };
+            
+            const index = user.savedApps.indexOf(appId);
+            
+            if (index === -1) {
+                user.savedApps.push(appId);
+            } else {
+                user.savedApps.splice(index, 1);
+            }
+            
+            // Save updated user data
+            localStorage.setItem(`user_${currentUser.email}`, JSON.stringify(user));
+            
+            // Update UI
+            updateSavedCounter();
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            const filteredApps = filterAppsByCategory(activeCategory);
+            renderApps(filteredApps);
+        }
+        
+        // Update saved counter
+        function updateSavedCounter() {
+            if (!currentUser) {
+                savedText.textContent = 'Saved';
+                return;
+            }
+            
+            const savedApps = getUserSavedApps();
+            savedText.textContent = `Saved (${savedApps.length})`;
+        }
+        
+        // Show saved apps modal
+        function showSavedModal() {
+            if (!currentUser) {
+                showAccountModal();
+                return;
+            }
+            
+            savedModal.style.display = 'flex';
+            renderSavedApps();
+        }
+        
+        // Render saved apps in modal
+        function renderSavedApps() {
+            const savedApps = getUserSavedApps();
+            
+            if (savedApps.length === 0) {
+                savedAppsContainer.innerHTML = `
+                    <div class="saved-apps-empty">
+                        <i class="fas fa-bookmark"></i>
+                        <h3>No saved apps yet</h3>
+                        <p>Save your favorite apps to access them quickly</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            savedModalTitle.textContent = `${currentUser.name}'s Saved Apps`;
+            savedAppsContainer.innerHTML = `
+                <h3 style="margin-bottom: 15px;">Your Saved Apps (${savedApps.length})</h3>
+                <div class="saved-apps-grid"></div>
+            `;
+            
+            const savedAppsGrid = savedAppsContainer.querySelector('.saved-apps-grid');
+            
+            savedApps.forEach(appId => {
+                const app = apps.find(a => a.id === appId);
+                if (app) {
+                    const appCard = document.createElement('div');
+                    appCard.className = 'app-card';
+                    appCard.innerHTML = `
+                        <div class="app-icon" style="background: ${app.background}">
+                            <i class="${app.iconClass}" style="color: white;"></i>
+                        </div>
+                        <div class="app-content">
+                            <div class="app-title">${app.title}</div>
+                            <a href="${app.link}" class="app-link" target="_blank">Visit</a>
+                        </div>
+                    `;
+                    savedAppsGrid.appendChild(appCard);
+                }
+            });
+        }
+        
+        // Show account modal
+        function showAccountModal() {
+            accountModal.style.display = 'flex';
+            
+            if (currentUser) {
+                showUserProfile();
+            } else {
+                showLoginForm();
+            }
+        }
+        
+        // Show login form
+        function showLoginForm() {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            userProfile.style.display = 'none';
+            accountModalTitle.textContent = 'Account Login';
+        }
+        
+        // Show user profile
+        function showUserProfile() {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'none';
+            userProfile.style.display = 'block';
+            accountModalTitle.textContent = 'Your Account';
+            
+            userName.textContent = currentUser.name;
+            userEmail.textContent = currentUser.email;
+            userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            updateSavedCounter();
+        }
+        
+        // Login function
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // In a real app, this would be a server request
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = {
+                    name: user.name,
+                    email: user.email
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateAccountUI();
+                showUserProfile();
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+        
+        // Signup function
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Save user to "database"
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if user already exists
+            if (users.some(u => u.email === email)) {
+                alert('Email already registered');
+                return;
+            }
+            
+            // Add new user
+            users.push({
+                name,
+                email,
+                password // In a real app, passwords should be hashed
+            });
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Log in the new user
+            currentUser = { name, email };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Create user-specific storage
+            localStorage.setItem(`user_${email}`, JSON.stringify({
+                name,
+                email,
+                savedApps: []
+            }));
+            
+            updateAccountUI();
+            showUserProfile();
+            
+            // Clear form
+            document.getElementById('name').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+        
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateAccountUI();
+            showLoginForm();
+            accountModal.style.display = 'none';
+        }
+        
+        // Update account UI
+        function updateAccountUI() {
+            if (currentUser) {
+                accountText.textContent = currentUser.name.split(' ')[0];
+                savedBtn.disabled = false;
+                updateSavedCounter();
+            } else {
+                accountText.textContent = 'Account';
+                savedBtn.disabled = false;
+                savedText.textContent = 'Saved';
+            }
+        }
+        
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                'social': 'Social Media',
+                'productivity': 'Productivity',
+                'entertainment': 'Entertainment',
+                'utilities': 'Utilities',
+                'shopping': 'Shopping',
+                'finance': 'Finance',
+                'health': 'Health & Fitness',
+                'travel': 'Travel',
+                'news': 'News',
+                'food': 'Food',
+                'education': 'Education',
+                'downloaders': 'Downloaders'
+            };
+            return names[category] || category;
+        }
+        
+        // Filter apps by category
+        function filterAppsByCategory(category) {
+            if (category === 'all') return apps;
+            return apps.filter(app => app.category === category);
+        }
+        
+        // Search apps
+        function searchApps(term) {
+            if (!term) return apps;
+            term = term.toLowerCase();
+            return apps.filter(app => 
+                app.title.toLowerCase().includes(term) || 
+                app.description.toLowerCase().includes(term) ||
+                getCategoryName(app.category).toLowerCase().includes(term)
+            );
+        }
+        
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
