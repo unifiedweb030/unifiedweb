@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - Unified Web</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    h1 { color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><strong>Last Updated:</strong> 20 June 2025</p>
+  <p>Unified Web respects your privacy and is committed to protecting your data...</p>
+  <h3>1. Information We Collect</h3>
+  <p>We may collect anonymous device and usage data. We do not collect personal information.</p>
+  <h3>2. How We Use Your Data</h3>
+  <p>For improving user experience, analytics, and potential advertising.</p>
+  <h3>3. Cookies</h3>
+  <p>Cookies may be used for preferences or ads. You can disable cookies in your browser.</p>
+  <h3>4. Third-Party Links</h3>
+  <p>We are not responsible for third-party websites linked from this site.</p>
+  <h3>5. Security</h3>
+  <p>We take reasonable steps to protect your data, but nothing is 100% secure online.</p>
+  <h3>6. Children’s Privacy</h3>
+  <p>This site is not for children under 13. No data is knowingly collected from them.</p>
+  <h3>7. Updates</h3>
+  <p>This policy may change. Check back for updates.</p>
+  <p>Contact us at: your_email@example.com</p>
+</body>
+</html>
